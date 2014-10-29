@@ -30,7 +30,7 @@ Page {
         var dialog = pageStack.push(Qt.resolvedUrl("SaveDialog.qml"));
         dialog.accepted.connect(function() {
             console.log("Saving track");
-            recorder.exportGpx(dialog.name, dialog.description);
+            recorder.exportGpx(dialog.name, dialog.description, dialog.type);
             recorder.clearTrack();  // TODO: Make sure save was successful?
             trackLine.path = [];
         })

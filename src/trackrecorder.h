@@ -41,7 +41,7 @@ class TrackRecorder : public QObject
 public:
     explicit TrackRecorder(QObject *parent = 0);
     ~TrackRecorder();
-    Q_INVOKABLE void exportGpx(QString name="", QString desc="");
+    Q_INVOKABLE void exportGpx(QString name="", QString desc="", QString type="");
     Q_INVOKABLE void clearTrack();
 
     qreal accuracy() const;

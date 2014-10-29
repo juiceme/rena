@@ -26,6 +26,7 @@ Dialog {
     allowedOrientations: Orientation.Portrait
     property string name
     property string description
+    property string type: qsTr("Running")
 
     onDone: {
         name = nameField.text;
@@ -59,8 +60,27 @@ Dialog {
             placeholderText: qsTr("Description")
             text: ""
             EnterKey.enabled: true
+            EnterKey.iconSource: "image://theme/icon-m-enter-next"
+            EnterKey.onClicked: excerciseType.focus = true
+        }
+        ComboBox {
+            id: excerciseType
+            x: Theme.paddingLarge
+            width: parent.width - Theme.paddingLarge
+            focus: true
+            label: qsTr("Type")
+            currentIndex: 0
+
+            menu: ContextMenu {
+                MenuItem { text: qsTr("Running"); onClicked: saveDialog.type = qsTr("Running") }
+                MenuItem { text: qsTr("Hiking"); onClicked: saveDialog.type = qsTr("Hiking") }
+                MenuItem { text: qsTr("Cycling"); onClicked: saveDialog.type = qsTr("Cycling") }
+                MenuItem { text: qsTr("Skating"); onClicked: saveDialog.type = qsTr("Skating") }
+                MenuItem { text: qsTr("Other"); onClicked: saveDialog.type = qsTr("Other") }
+            }
+            EnterKey.enabled: true
             EnterKey.iconSource: "image://theme/icon-m-enter-accept"
-            EnterKey.onClicked: accept()
+            EnterKey.onClicked: NameField.focus = true
         }
     }
 }

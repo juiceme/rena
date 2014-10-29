@@ -114,7 +114,7 @@ void TrackRecorder::positioningError(QGeoPositionInfoSource::Error error) {
     qDebug()<<"Positioning error:"<<error;
 }
 
-void TrackRecorder::exportGpx(QString name, QString desc) {
+void TrackRecorder::exportGpx(QString name, QString desc, QString type) {
     qDebug()<<"Exporting track to gpx";
     if(m_points.size() < 1) {
         qDebug()<<"Nothing to save";
@@ -159,16 +159,47 @@ void TrackRecorder::exportGpx(QString name, QString desc) {
     xml.writeAttribute("version", "1.1");
     xml.writeAttribute("Creator", "Rena for Sailfish");
 
-    if(!name.isEmpty() || !desc.isEmpty()) {
-        xml.writeStartElement("metadata");
-        if(!name.isEmpty()) {
-            xml.writeTextElement("name", name);
+    // Now this is a bit redundant, but to be able to write the totals in the metadata section we do need to loop
+    // through the whole pointset here...
+    qreal duration = 0;
+    qreal distance = 0;
+    qreal avg_speed = 0;
+    qreal max_speed = 0;
+    QDateTime start_time(m_points.at(0).timestamp());
+    QDateTime stop_time(m_points.at(m_points.size()-1).timestamp());
+    duration = start_time.secsTo(stop_time);
+    for(int i=1 ; i < m_points.size(); i++) {
+        if(m_points.at(i-1).coordinate().type() != QGeoCoordinate::Coordinate3D) {
+            break; // No position info, skip this point
         }
-        if(!desc.isEmpty()) {
-            xml.writeTextElement("desc", desc);
+        QGeoCoordinate first(m_points.at(i-1).coordinate().latitude(), m_points.at(i-1).coordinate().longitude());
+        QGeoCoordinate second(m_points.at(i).coordinate().latitude(), m_points.at(i).coordinate().longitude());
+        distance += first.distanceTo(second);
+        if(m_points.at(i).attribute(QGeoPositionInfo::GroundSpeed) > max_speed) {
+            max_speed = m_points.at(i).attribute(QGeoPositionInfo::GroundSpeed);
         }
-        xml.writeEndElement(); // metadata
     }
+    if(distance == 0 || duration == 0) {
+        avg_speed = 0;
+    } else {
+        avg_speed = distance / duration;
+    }
+
+    xml.writeStartElement("metadata");
+    if(!name.isEmpty()) {
+        xml.writeTextElement("name", name);
+    }
+    if(!desc.isEmpty()) {
+        xml.writeTextElement("desc", desc);
+    }
+    if(!type.isEmpty()) {
+        xml.writeTextElement("type", type);
+    }
+    xml.writeTextElement("duration", QString::number(duration));
+    xml.writeTextElement("distance", QString::number(distance));
+    xml.writeTextElement("avg_speed", QString::number(avg_speed));
+    xml.writeTextElement("max_speed", QString::number(max_speed));
+    xml.writeEndElement(); // metadata
 
     xml.writeStartElement("trk");
     xml.writeStartElement("trkseg");
