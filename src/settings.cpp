@@ -34,3 +34,30 @@ void Settings::setUpdateInterval(int updateInterval) {
     m_settings->setValue("positioning/updateInterval", updateInterval);
     emit updateIntervalChanged();
 }
+
+int Settings::dogTrackingInterval() const {
+    return m_settings->value("positioning/dogTrackingInterval", 0).toInt();
+}
+
+void Settings::setDogTrackingInterval(int dogTrackingInterval) {
+    m_settings->setValue("positioning/dogTrackingInterval", dogTrackingInterval);
+    emit dogTrackingIntervalChanged();
+}
+
+QString Settings::dogTrackingUrl() const {
+    return m_settings->value("positioning/dogTrackingUrl", "").toString();
+}
+
+void Settings::setDogTrackingUrl(QString dogTrackingUrl) {
+    m_settings->setValue("positioning/dogTrackingUrl", dogTrackingUrl);
+    emit dogTrackingUrlChanged();
+}
+
+QString Settings::dogTrackingPassword() const {
+    return m_settings->value("positioning/dogTrackingPassword", "").toString();
+}
+
+void Settings::setDogTrackingPassword(QString dogTrackingPassword) {
+    m_settings->setValue("positioning/dogTrackingPassword", dogTrackingPassword);
+    emit dogTrackingPasswordChanged();
+}

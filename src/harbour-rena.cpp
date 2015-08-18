@@ -26,13 +26,18 @@
 #include <QGuiApplication>
 #include <QQuickView>
 #include <sailfishapp.h>
+#include <QSslConfiguration>
 #include "trackrecorder.h"
 #include "historymodel.h"
 #include "trackloader.h"
 #include "settings.h"
 
-
 int main(int argc, char *argv[]) {
+
+    QSslConfiguration config = QSslConfiguration::defaultConfiguration();
+    config.setPeerVerifyMode(QSslSocket::VerifyNone);
+    QSslConfiguration::setDefaultConfiguration(config);
+
     QGuiApplication *app = SailfishApp::application(argc, argv);
 
     app->setApplicationName("Rena");

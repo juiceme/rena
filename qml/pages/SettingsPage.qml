@@ -33,11 +33,24 @@ Page {
         else if(settings.updateInterval <= 15000) updateIntervalMenu.currentIndex = 4;
         else if(settings.updateInterval <= 30000) updateIntervalMenu.currentIndex = 5;
         else updateIntervalMenu.currentIndex = 6;
+
+        if(settings.dogTrackingInterval == 0) dogTrackingIntervalMenu.currentIndex = 0;
+        else if(settings.dogTrackingInterval <= 1000) dogTrackingIntervalMenu.currentIndex = 1;
+        else if(settings.dogTrackingInterval <= 2000) dogTrackingIntervalMenu.currentIndex = 2;
+        else if(settings.dogTrackingInterval <= 5000) dogTrackingIntervalMenu.currentIndex = 3;
+        else if(settings.dogTrackingInterval <= 10000) dogTrackingIntervalMenu.currentIndex = 4;
+        else if(settings.dogTrackingInterval <= 15000) dogTrackingIntervalMenu.currentIndex = 5;
+        else if(settings.dogTrackingInterval <= 30000) dogTrackingIntervalMenu.currentIndex = 6;
+        else dogTrackingIntervalMenu.currentIndex = 7;
+
+        dogTrackingUrl.text = settings.dogTrackingUrl;
+        dogTrackingPassword.text = settings.dogTrackingPassword;
     }
 
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: childrenRect.height
+
         Column {
             id: column
             width: page.width
@@ -56,6 +69,52 @@ Page {
                     MenuItem { text: qsTr("15 s"); onClicked: settings.updateInterval = 15000; }
                     MenuItem { text: qsTr("30 s"); onClicked: settings.updateInterval = 30000; }
                     MenuItem { text: qsTr("1 minute"); onClicked: settings.updateInterval = 60000; }
+                }
+            }
+            ComboBox {
+                id: dogTrackingIntervalMenu
+                label: "Dog Tracking Interval"
+                description: qsTr('Connects to external service to track your dog')
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("off"); onClicked: settings.dogTrackingInterval = 0; }
+                    MenuItem { text: qsTr("1 s"); onClicked: settings.dogTrackingInterval = 1000; }
+                    MenuItem { text: qsTr("2 s"); onClicked: settings.dogTrackingInterval = 2000; }
+                    MenuItem { text: qsTr("5 s"); onClicked: settings.dogTrackingInterval = 5000; }
+                    MenuItem { text: qsTr("10 s"); onClicked: settings.dogTrackingInterval = 10000; }
+                    MenuItem { text: qsTr("15 s"); onClicked: settings.dogTrackingInterval = 15000; }
+                    MenuItem { text: qsTr("30 s"); onClicked: settings.dogTrackingInterval = 30000; }
+                    MenuItem { text: qsTr("1 minute"); onClicked: settings.dogTrackingInterval = 60000; }
+                }
+            }
+            TextField {
+                id: dogTrackingUrl
+                visible: settings.dogTrackingInterval != 0
+                x: Theme.paddingLarge
+                width: parent.width - Theme.paddingLarge
+                label: qsTr("Dog Tracking URL")
+                placeholderText: qsTr("https://my.own.site/my-runaway-dog/")
+                EnterKey.enabled: true
+                EnterKey.iconSource: "image://theme/icon-m-enter-next"
+                onFocusChanged: {
+                    if(!focus) {
+                        settings.dogTrackingUrl = dogTrackingUrl.text;
+                    }
+                }
+            }
+            TextField {
+                id: dogTrackingPassword
+                visible: settings.dogTrackingInterval != 0
+                echoMode: TextInput.PasswordEchoOnEdit
+                x: Theme.paddingLarge
+                width: parent.width - Theme.paddingLarge
+                label: qsTr("Dog Tracking Password")
+                placeholderText: qsTr("**********")
+                EnterKey.enabled: true
+                EnterKey.iconSource: "image://theme/icon-m-enter-next"
+                onFocusChanged: {
+                    if(!focus) {
+                        settings.dogTrackingPassword = dogTrackingPassword.text;
+                    }
                 }
             }
         }

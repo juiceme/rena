@@ -29,13 +29,29 @@ class Settings : public QObject
     Q_OBJECT
     Q_PROPERTY(int updateInterval READ updateInterval
                WRITE setUpdateInterval NOTIFY updateIntervalChanged)
+    Q_PROPERTY(int dogTrackingInterval READ dogTrackingInterval
+               WRITE setDogTrackingInterval NOTIFY dogTrackingIntervalChanged)
+    Q_PROPERTY(QString dogTrackingUrl READ dogTrackingUrl
+               WRITE setDogTrackingUrl NOTIFY dogTrackingUrlChanged)
+    Q_PROPERTY(QString dogTrackingPassword READ dogTrackingPassword
+               WRITE setDogTrackingPassword NOTIFY dogTrackingPasswordChanged)
+
 public:
     explicit Settings(QObject *parent = 0);
     int updateInterval() const;
     void setUpdateInterval(int updateInterval);
+    int dogTrackingInterval() const;
+    void setDogTrackingInterval(int dogTrackingInterval);
+    QString dogTrackingUrl() const;
+    void setDogTrackingUrl(QString dogTrackingUrl);
+    QString dogTrackingPassword() const;
+    void setDogTrackingPassword(QString dogTrackingPassword);
 
 signals:
     void updateIntervalChanged();
+    void dogTrackingIntervalChanged();
+    void dogTrackingUrlChanged();
+    void dogTrackingPasswordChanged();
 
 public slots:
 
