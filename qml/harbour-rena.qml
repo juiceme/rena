@@ -22,6 +22,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Settings 1.0
 import TrackRecorder 1.0
+import DogTracker 1.0
 import "pages"
 
 ApplicationWindow {
@@ -37,5 +38,10 @@ ApplicationWindow {
         id: recorder
         applicationActive: appWindow.applicationActive
         updateInterval: settings.updateInterval
+    }
+
+    DogTracker {
+        id: dogtracker
+        dogTrackingInterval: settings.dogTrackingInterval
     }
 }

@@ -77,6 +77,7 @@ Page {
             map.zoomLevel = trackZoom;
         }
         if(recorder.isEmpty) {
+//            map.center = dogtracker.currentDogPosition;
             map.center = recorder.currentPosition;
         } else {
             map.center = recorder.trackCenter();
@@ -100,6 +101,7 @@ Page {
     Component.onCompleted: {
         recorder.newTrackPoint.connect(newTrackPoint);
         map.addMapItem(positionMarker);
+//        map.addMapItem(dogMarker);
         console.log("RecordPage: Plotting track line");
         for(var i=0;i<recorder.points;i++) {
             trackLine.addCoordinate(recorder.trackPointAt(i));
@@ -126,6 +128,34 @@ Page {
             if(!map.gesture.enabled) {  // When not browsing the map
                 setMapViewport()
             }
+        }
+        Behavior on radius {
+            NumberAnimation { duration: 200 }
+        }
+        Behavior on center.latitude {
+            NumberAnimation { duration: 200 }
+        }
+        Behavior on center.longitude {
+            NumberAnimation { duration: 200 }
+        }
+    }
+
+    MapCircle {
+        id: dogMarker
+        //center: dogtracker.currentDogPosition
+        center: recorder.currentPosition
+        //center: map.center
+
+        //radius: dogtracker.accuracy
+        radius: 10
+        color: "green"
+        border.color: "green"
+        opacity: 0.3
+        onRadiusChanged: {
+            setMapViewport()
+        }
+        onCenterChanged: {
+            setMapViewport()
         }
         Behavior on radius {
             NumberAnimation { duration: 200 }
