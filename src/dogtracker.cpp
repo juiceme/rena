@@ -42,10 +42,7 @@ void DogTracker::setdogTrackingInterval(int dogTrackingInterval) {
 }
 
 QGeoCoordinate DogTracker::currentDogPosition() const {
-    QGeoCoordinate qgc;
-//    qgc.setLatitude(m_currentDogLatitude);
-//    qgc.setLongitude(m_currentDogLongitude);
-    return qgc;
+    return m_currentDogPosition;
 }
 
 void DogTracker::fetchDogPosition() {

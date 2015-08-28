@@ -101,7 +101,7 @@ Page {
     Component.onCompleted: {
         recorder.newTrackPoint.connect(newTrackPoint);
         map.addMapItem(positionMarker);
-//        map.addMapItem(dogMarker);
+        map.addMapItem(dogMarker);
         console.log("RecordPage: Plotting track line");
         for(var i=0;i<recorder.points;i++) {
             trackLine.addCoordinate(recorder.trackPointAt(i));
@@ -142,30 +142,15 @@ Page {
 
     MapCircle {
         id: dogMarker
-        //center: dogtracker.currentDogPosition
-        center: recorder.currentPosition
-        //center: map.center
+        visible: settings.dogTrackingInterval != 0
+        center: dogtracker.currentDogPosition
 
         //radius: dogtracker.accuracy
-        radius: 10
-        color: "green"
-        border.color: "green"
-        opacity: 0.3
-        onRadiusChanged: {
-            setMapViewport()
-        }
-        onCenterChanged: {
-            setMapViewport()
-        }
-        Behavior on radius {
-            NumberAnimation { duration: 200 }
-        }
-        Behavior on center.latitude {
-            NumberAnimation { duration: 200 }
-        }
-        Behavior on center.longitude {
-            NumberAnimation { duration: 200 }
-        }
+        radius: 15
+        color: "red"
+        border.color: "black"
+        border.width: 5
+        opacity: 0.4
     }
 
     MapPolyline {
