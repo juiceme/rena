@@ -1,0 +1,57 @@
+Dogtracking extensions to Rena
+==============================
+
+This directory contains a test utility for dog tracking functionality and
+implementation for the backend server for Meitrack MT-90 tracking module.
+
+Both modules are implemented as nodejs scripts, so you need to install
+node.js on your tracking backend server.
+
+
+Test application
+----------------
+
+The file "test_dora.js" serves dummy coordinates to the dog tracking
+application, so that you can see the positioning marker move in a circle
+around the given coordinates.
+For example, starting it with "node test_dora.js 60.169700 24.934800" will
+start the test server to feed out coordinates that circle around the
+Narinkkatori in Helsinki city center.
+You can use this to verify your server and client setup works correctly
+and Rena displays the moving dog marker correctly.
+
+
+Server application
+------------------
+
+The file "doraserver.js" is server implementation for MT-90.
+It receives coordinates from the tracking module and feeds them to the
+mobile application.
+
+To configure the server backend, you need to replace the definitions
+in the beginning of the file with values of your own setup;
+
+  var mt90Port = 8766;                 <-- The port that MT-90 connects
+  var httpPort = 8765;                 <-- The port that Jolla connects
+  var validIMEI = "123456789012345";   <-- IMEI of your MT-90 tracker
+  var password = "ToPsEcReT";          <-- Password in Jolla application
+
+The MT-90 uses either UDP or TCP protocol to communicate with the server.
+This application uses TCP but it is easily changed to UDP if desired.
+See the Meitrack GPRS protocol manual for details;
+http://www.meitrack.net/meitrack-support/protocol/MEITRACK_GPRS_Protocol.pdf
+
+To configure your Meitrack MT-90 you can use SMS message interface.
+The configuration SW that is provided with the tracking module is
+of course "Windows only" but fortunately it is not needed as the
+API's are all open.
+See the Meitrack SMS protocol manual for details;
+http://www.meitrack.net/meitrack-support/protocol/MEITRACK_SMS_Protocol.pdf
+
+The interface between the server backend and the Jolla application
+uses http/https query. The server application uses just http so if you
+want to use https (as is preferential) you need to use a https/http
+translating proxy between the internet and doraserver.
+This is usually fairly easy to do, as normally you'd proxy all incoming
+https requests to your network via Apache anyway.
+
