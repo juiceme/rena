@@ -1,0 +1,8 @@
+{
+  "gpsPort" : "8766",
+  "httpPort" : "8765",
+  "devices" : [
+    { "imei" : "123456789012345", "password" : "ToPsEcReT" },
+    { "imei" : "345678901234567", "password" : "hehahohu" }
+  ]
+}
