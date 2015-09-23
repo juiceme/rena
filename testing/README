@@ -28,13 +28,16 @@ The file "doraserver.js" is server implementation for MT-90.
 It receives coordinates from the tracking module and feeds them to the
 mobile application.
 
-To configure the server backend, you need to replace the definitions
-in the beginning of the file with values of your own setup;
+Configuration is done via the file doraconfig.json;
 
-  var mt90Port = 8766;                 <-- The port that MT-90 connects
-  var httpPort = 8765;                 <-- The port that Jolla connects
-  var validIMEI = "123456789012345";   <-- IMEI of your MT-90 tracker
-  var password = "ToPsEcReT";          <-- Password in Jolla application
+The file contains the ports for GPS input and http clients that the
+server listens to. Additionaly there is a list of imei/password pairs
+that you need to configure according to your needs.
+
+Each pair denotes a binding; the server only accepts coordinates
+from devices which have teir imei present in the configuration, and
+each client uses the password to access the GPS data from the device
+identified by the imei.
 
 The MT-90 uses either UDP or TCP protocol to communicate with the server.
 This application uses TCP but it is easily changed to UDP if desired.
