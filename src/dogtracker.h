@@ -33,7 +33,7 @@ public slots:
 
 private:
     QGeoCoordinate m_currentDogPosition;
-    int m_dogPositionAccuracy;
+    double m_dogPositionAccuracy;
     int m_dogPositionAge;
     int m_dogTrackingInterval;
     QTimer m_dogTrackingTimer;

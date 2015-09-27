@@ -46,7 +46,7 @@ QGeoCoordinate DogTracker::currentDogPosition() const {
 }
 
 int DogTracker::dogPositionAccuracy() const {
-    int scaledAccuracy = m_dogPositionAccuracy;
+    int scaledAccuracy = (int) m_dogPositionAccuracy;
     // Accuracy is between 1...50 (smaller is better) value 0 means invalid.
     // This scales the value to suit presentation as radius of circle.
     if(scaledAccuracy < 1) { return 50; }
@@ -93,7 +93,7 @@ void DogTracker::requestDogPosition() {
         if(jsonObj["version"].toString() == "0.2") {
             m_currentDogPosition.setLatitude(jsonObj["lat"].toString().toDouble());
             m_currentDogPosition.setLongitude(jsonObj["lon"].toString().toDouble());
-            m_dogPositionAccuracy = jsonObj["accuracy"].toString().toInt();
+            m_dogPositionAccuracy = jsonObj["accuracy"].toString().toDouble();
             m_dogPositionAge = jsonObj["age"].toString().toInt();
             qDebug() << "Dog found at:" << m_currentDogPosition.latitude() << m_currentDogPosition.longitude();
             emit currentDogPositionChanged();
