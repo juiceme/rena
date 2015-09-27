@@ -145,12 +145,13 @@ Page {
         visible: settings.dogTrackingInterval != 0
         center: dogtracker.currentDogPosition
 
-        //radius: dogtracker.accuracy
-        radius: 15
+        radius: dogtracker.dogPositionAccuracy
+        //radius: 15
         color: "red"
         border.color: "black"
         border.width: 5
-        opacity: 0.4
+        opacity: 0.4 + (dogtracker.dogPositionAge / 300)
+        //opacity: 0.4
     }
 
     MapPolyline {

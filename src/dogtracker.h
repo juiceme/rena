@@ -12,6 +12,8 @@ class DogTracker : public QObject
                 WRITE setdogTrackingInterval NOTIFY dogTrackingIntervalChanged)
     Q_PROPERTY(QGeoCoordinate currentDogPosition READ currentDogPosition
                 NOTIFY currentDogPositionChanged)
+    Q_PROPERTY(int dogPositionAccuracy READ dogPositionAccuracy NOTIFY currentDogPositionChanged)
+    Q_PROPERTY(int dogPositionAge READ dogPositionAge NOTIFY currentDogPositionChanged)
 
 public:
     explicit DogTracker(QObject *parent = 0);
@@ -19,6 +21,8 @@ public:
     int dogTrackingInterval() const;
     void setdogTrackingInterval(int dogTrackingInterval);
     QGeoCoordinate currentDogPosition() const;
+    int dogPositionAccuracy() const;
+    int dogPositionAge() const;
 
 signals:
     void dogTrackingIntervalChanged();
@@ -29,6 +33,8 @@ public slots:
 
 private:
     QGeoCoordinate m_currentDogPosition;
+    int m_dogPositionAccuracy;
+    int m_dogPositionAge;
     int m_dogTrackingInterval;
     QTimer m_dogTrackingTimer;
     void requestDogPosition();

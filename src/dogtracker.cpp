@@ -45,6 +45,27 @@ QGeoCoordinate DogTracker::currentDogPosition() const {
     return m_currentDogPosition;
 }
 
+int DogTracker::dogPositionAccuracy() const {
+    int scaledAccuracy = m_dogPositionAccuracy;
+    // Accuracy is between 1...50 (smaller is better) value 0 means invalid.
+    // This scales the value to suit presentation as radius of circle.
+    if(scaledAccuracy < 1) { return 50; }
+    if(scaledAccuracy > 50) { scaledAccuracy = 50; }
+    qDebug() << "Dog position accuracy:" << scaledAccuracy;
+    return scaledAccuracy;
+}
+
+int DogTracker::dogPositionAge() const {
+    double scaledAge = (double) m_dogPositionAge;
+    // Age should be between 0...3600 seconds. However we are intrested
+    // in ages up to 10 minutes or so.
+    // The scaled values should suit presentation as opacity value.
+    if(scaledAge < 1) { scaledAge = 1; }
+    if(scaledAge > 600) { scaledAge = 600; }
+    qDebug() << "Dog position age:" << scaledAge;
+    return scaledAge;
+}
+
 void DogTracker::fetchDogPosition() {
     if(m_dogTrackingInterval > 0) {
         qDebug()<<"Fetching dog position";
@@ -69,9 +90,11 @@ void DogTracker::requestDogPosition() {
         qDebug() << "Response:" << strReply;
         QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8());
         QJsonObject jsonObj = jsonResponse.object();
-        if(jsonObj["version"].toString() == "0.1") {
+        if(jsonObj["version"].toString() == "0.2") {
             m_currentDogPosition.setLatitude(jsonObj["lat"].toString().toDouble());
             m_currentDogPosition.setLongitude(jsonObj["lon"].toString().toDouble());
+            m_dogPositionAccuracy = jsonObj["accuracy"].toString().toInt();
+            m_dogPositionAge = jsonObj["age"].toString().toInt();
             qDebug() << "Dog found at:" << m_currentDogPosition.latitude() << m_currentDogPosition.longitude();
             emit currentDogPositionChanged();
         } else {

@@ -53,7 +53,7 @@ function serveRenaClient() {
                 var locationAge;
                 if(g_config.devices[clientId].location == null) {
                     g_config.devices[clientId].lastAccess = 0;
-                    g_config.devices[clientId].location = {version:"0.1", lat:"0.0", lon:"0.0", height:"0.0", age:"0.0"};
+                    g_config.devices[clientId].location = {version:"0.2", lat:"0.0", lon:"0.0", height:"0.0", accuracy:"0.0", age:"0.0"};
                     console.log(Date() + " <creating new location #" + clientId + ">");
                 }
                 if(g_config.devices[clientId].lastAccess == 0) { locationAge = 3600; }
@@ -89,7 +89,7 @@ function serveMeitrackClient() {
             if(clientId != null) {
                 if(g_config.devices[clientId].location == null) {
                     g_config.devices[clientId].lastAccess = 0;
-                    g_config.devices[clientId].location = {version:"0.1", lat:"0.0", lon:"0.0", height:"0.0", age:"0.0"};
+                    g_config.devices[clientId].location = {version:"0.2", lat:"0.0", lon:"0.0", height:"0.0", accuracy:"0.0", age:"0.0"};
                     console.log(Date() + " <creating new location #" + clientId + ">");
                 }
 		g_config.devices[clientId].connection = socket;
@@ -98,6 +98,7 @@ function serveMeitrackClient() {
                 g_config.devices[clientId].location.lat = locationInput[4];
                 g_config.devices[clientId].location.lon = locationInput[5];
                 g_config.devices[clientId].location.height = locationInput[13];
+                g_config.devices[clientId].location.accuracy = locationInput[12];
                 console.log(Date() + " <input location from #" + clientId + "> " + JSON.stringify(g_config.devices[clientId].location));
                 console.log(data.toString());
             } else {
