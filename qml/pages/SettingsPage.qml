@@ -35,13 +35,11 @@ Page {
         else updateIntervalMenu.currentIndex = 6;
 
         if(settings.dogTrackingInterval == 0) dogTrackingIntervalMenu.currentIndex = 0;
-        else if(settings.dogTrackingInterval <= 1000) dogTrackingIntervalMenu.currentIndex = 1;
-        else if(settings.dogTrackingInterval <= 2000) dogTrackingIntervalMenu.currentIndex = 2;
-        else if(settings.dogTrackingInterval <= 5000) dogTrackingIntervalMenu.currentIndex = 3;
-        else if(settings.dogTrackingInterval <= 10000) dogTrackingIntervalMenu.currentIndex = 4;
-        else if(settings.dogTrackingInterval <= 15000) dogTrackingIntervalMenu.currentIndex = 5;
-        else if(settings.dogTrackingInterval <= 30000) dogTrackingIntervalMenu.currentIndex = 6;
-        else dogTrackingIntervalMenu.currentIndex = 7;
+        else if(settings.dogTrackingInterval <= 5000) dogTrackingIntervalMenu.currentIndex = 1;
+        else if(settings.dogTrackingInterval <= 10000) dogTrackingIntervalMenu.currentIndex = 2;
+        else if(settings.dogTrackingInterval <= 15000) dogTrackingIntervalMenu.currentIndex = 3;
+        else if(settings.dogTrackingInterval <= 30000) dogTrackingIntervalMenu.currentIndex = 4;
+        else dogTrackingIntervalMenu.currentIndex = 5;
 
         dogTrackingUrl.text = settings.dogTrackingUrl;
         dogTrackingPassword.text = settings.dogTrackingPassword;
@@ -77,8 +75,6 @@ Page {
                 description: qsTr('Connects to external service to track your dog')
                 menu: ContextMenu {
                     MenuItem { text: qsTr("off"); onClicked: settings.dogTrackingInterval = 0; }
-                    MenuItem { text: qsTr("1 s"); onClicked: settings.dogTrackingInterval = 1000; }
-                    MenuItem { text: qsTr("2 s"); onClicked: settings.dogTrackingInterval = 2000; }
                     MenuItem { text: qsTr("5 s"); onClicked: settings.dogTrackingInterval = 5000; }
                     MenuItem { text: qsTr("10 s"); onClicked: settings.dogTrackingInterval = 10000; }
                     MenuItem { text: qsTr("15 s"); onClicked: settings.dogTrackingInterval = 15000; }

@@ -10,6 +10,7 @@
 #include <QJsonObject>
 #include "dogtracker.h"
 #include "settings.h"
+#include "qreplytimeout.h"
 
 DogTracker::DogTracker(QObject *parent) :
     QObject(parent)
@@ -83,6 +84,7 @@ void DogTracker::requestDogPosition() {
 
     QNetworkRequest req(QUrl(settings.dogTrackingUrl() + "?password=" + settings.dogTrackingPassword()));
     QNetworkReply *reply = mgr.get(req);
+    new QReplyTimeout(reply, 3000);
     eventLoop.exec(); // blocks stack until "finished()" has been called
 
     if(reply->error() == QNetworkReply::NoError) {

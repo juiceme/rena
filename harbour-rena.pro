@@ -43,5 +43,6 @@ HEADERS += \
     src/historymodel.h \
     src/trackloader.h \
     src/settings.h \
-    src/dogtracker.h
+    src/dogtracker.h \
+    src/qreplytimeout.h
 
